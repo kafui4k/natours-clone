@@ -1,6 +1,3 @@
-/**
- * eslint-disable
- */
 import '@babel/polyfill';
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
@@ -10,10 +7,8 @@ import { updateSettings } from './updateSettings';
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const logOutButton = document.querySelector('.nav__el--logout');
-const userDataForm = document.querySelector.apply('.form-user-data');
-const userPasswordForm = document.querySelector.apply('.form-user-password');
-
-// VALUES
+const userDataForm = document.querySelector('.form-user-data');
+const userPasswordForm = document.querySelector('.form-user-password');
 
 // DELEGATION
 if (mapBox) {

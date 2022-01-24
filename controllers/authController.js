@@ -12,7 +12,7 @@ const signToken = id => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
@@ -46,7 +46,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     role: req.body.role
   });
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -65,7 +65,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // if all is ok, send jwt token to client
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.logout = (req, res) => {
@@ -149,9 +149,10 @@ exports.isLoggedIn = async (req, res, next) => {
       res.locals.user = currentUser;
       return next();
     } catch (err) {
-      next();
+      return next();
     }
   }
+  next();
 };
 
 exports.restrictTo = (...roles) => {

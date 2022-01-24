@@ -22,7 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // GLOBAL middleware
 // Serve Static Files
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // Set Security HTTP headers
 app.use(helmet());
