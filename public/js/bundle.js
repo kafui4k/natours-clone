@@ -7432,8 +7432,7 @@ parcelRequire = (function(e, r, t, n) {
               ('ReactNative' !== navigator.product &&
                 'NativeScript' !== navigator.product &&
                 'NS' !== navigator.product)) &&
-            'undefined' != typeof window &&
-            'undefined' != typeof document
+            'undefined' != typeof window && 'undefined' != typeof document
           );
         }
         function g(r, t) {
@@ -8704,7 +8703,7 @@ parcelRequire = (function(e, r, t, n) {
         exports.hideAlert = e;
         var t = function(t, r) {
           e();
-          var o = '<div class="alert laert--'
+          var o = '<div class="alert alert--'
             .concat(t, '">')
             .concat(r, '</div>');
           document.querySelector('body').insertAdjacentHTML('afterbegin', o),
@@ -8810,7 +8809,7 @@ parcelRequire = (function(e, r, t, n) {
                           (r.next = 3),
                           (0, e.default)({
                             method: 'GET',
-                            url: '/api/v1/users/logout'
+                            url: 'http://localhost:3000/api/v1/users/logout'
                           })
                         );
                       case 3:
@@ -8928,6 +8927,7 @@ parcelRequire = (function(e, r, t, n) {
       },
       { axios: 'uj17', './alerts': 'odIX' }
     ],
+    Uj2q: [function(require, module, exports) {}, {}],
     Focm: [
       function(require, module, exports) {
         'use strict';
@@ -9065,61 +9065,65 @@ parcelRequire = (function(e, r, t, n) {
           require('regenerator-runtime/runtime.js');
         var e = require('./mapbox'),
           s = require('./login'),
-          r = require('./updateSettings');
-        function o(e, s, r, o, u, t, i) {
+          r = require('./updateSettings'),
+          o = require('./stripe');
+        function u(e, s, r, o, u, t, i) {
           try {
             var j = e[t](i),
               c = j.value;
-          } catch (m) {
-            return void r(m);
+          } catch (d) {
+            return void r(d);
           }
           j.done ? s(c) : Promise.resolve(c).then(o, u);
         }
-        function u(e) {
+        function t(e) {
           return function() {
             var s = this,
               r = arguments;
-            return new Promise(function(u, t) {
+            return new Promise(function(o, t) {
               var i = e.apply(s, r);
               function j(e) {
-                o(i, u, t, j, c, 'next', e);
+                u(i, o, t, j, c, 'next', e);
               }
               function c(e) {
-                o(i, u, t, j, c, 'throw', e);
+                u(i, o, t, j, c, 'throw', e);
               }
               j(void 0);
             });
           };
         }
-        var t = document.getElementById('map'),
-          i = document.querySelector('.form--login'),
-          j = document.querySelector('.nav__el--logout'),
-          c = document.querySelector('.form-user-data'),
-          m = document.querySelector('.form-user-password');
-        if (t) {
-          var l = JSON.parse(t.dataset.locations);
-          (0, e.displayMap)(l);
+        var i = document.getElementById('map'),
+          j = document.querySelector('.form--login'),
+          c = document.querySelector('.nav__el--logout'),
+          d = document.querySelector('.form-user-data'),
+          m = document.querySelector('.form-user-password'),
+          l = document.getElementById('book-tour');
+        if (i) {
+          var n = JSON.parse(i.dataset.locations);
+          (0, e.displayMap)(n);
         }
-        i &&
-          i.addEventListener('submit', function(e) {
+        j &&
+          j.addEventListener('submit', function(e) {
             e.preventDefault();
             var r = document.getElementById('email').value,
               o = document.getElementById('password').value;
             (0, s.login)(r, o);
           }),
-          j && j.addEventListener('click', s.logout),
-          c &&
-            c.addEventListener('submit', function(e) {
+          c && c.addEventListener('click', s.logout),
+          d &&
+            d.addEventListener('submit', function(e) {
               e.preventDefault();
-              var s = document.getElementById('email').value,
-                o = document.getElementById('name').value;
-              (0, r.updateSettings)({ name: o, email: s }, 'data');
+              var s = new FormData();
+              s.append('name', document.getElementById('name').value),
+                s.append('email', document.getElementById('email').value),
+                s.append('photo', document.getElementById('photo').files[0]),
+                (0, r.updateSettings)(s, 'data');
             }),
           m &&
             m.addEventListener(
               'submit',
               (function() {
-                var e = u(
+                var e = t(
                   regeneratorRuntime.mark(function e(s) {
                     var o, u, t;
                     return regeneratorRuntime.wrap(function(e) {
@@ -9168,7 +9172,13 @@ parcelRequire = (function(e, r, t, n) {
                   return e.apply(this, arguments);
                 };
               })()
-            );
+            ),
+          l &&
+            l.addEventListener('click', function(e) {
+              e.target.textContent = 'Processing...';
+              var s = e.target.dataset.tourId;
+              (0, o.bookTour)(s);
+            });
       },
       {
         'core-js/modules/es6.array.copy-within.js': 'c9DC',
@@ -9305,7 +9315,8 @@ parcelRequire = (function(e, r, t, n) {
         'regenerator-runtime/runtime.js': 'VuXv',
         './mapbox': 'g63L',
         './login': 'mnjM',
-        './updateSettings': 'FxPS'
+        './updateSettings': 'FxPS',
+        './stripe': 'Uj2q'
       }
     ]
   },
